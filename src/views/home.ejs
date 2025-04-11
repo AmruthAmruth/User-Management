@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome User</title>
+  <style>
+    :root {
+      --primary: #FF4B2B;
+      --secondary: #FF416C;
+      --light-bg: #f6f5f7;
+      --input-bg: #eee;
+      --text-dark: #333;
+      --text-error: red;
+      --border-light: #DDDDDD;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--light-bg);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      opacity: 0.15;
+      animation: rotate 20s linear infinite;
+    }
+
+    .circle.one {
+      width: 150px;
+      height: 150px;
+      top: 10%;
+      left: 10%;
+    }
+
+    .circle.two {
+      width: 100px;
+      height: 100px;
+      bottom: 10%;
+      right: 15%;
+      animation-delay: 3s;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    .welcome-container {
+      background: #fff;
+      padding: 60px 40px;
+      border-radius: 25px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      color: var(--text-dark);
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      z-index: 1;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .welcome-container h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .welcome-container p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      font-style: italic;
+      color: var(--primary);
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .quote {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 30px;
+      opacity: 0;
+      animation: slideIn 1s ease-in-out 1.5s forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logout-btn {
+      background-color: var(--primary);
+      color: white;
+      padding: 12px 32px;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      animation: zoomIn 1s ease-in-out 2s forwards;
+      opacity: 0;
+    }
+
+    .logout-btn:hover {
+      background-color: var(--secondary);
+      transform: scale(1.08);
+    }
+
+    @keyframes zoomIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="circle one"></div>
+  <div class="circle two"></div>
+
+  <div class="welcome-container">
+    <div class="avatar">A</div>
+    <h1>Welcome, Amruth 👋</h1>
+    <p>“Stay focused and never stop learning.”</p>
+    <div class="quote">Success is the sum of small efforts, repeated day in and day out.</div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    function logout() {
+      alert("You’ve been logged out. See you again!");
+     
+    }
+  </script>
+</body>
+</html>
