@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome User</title>
+<%- include('./header') %>
   <style>
     :root {
       --primary: #FF4B2B;
@@ -180,7 +175,10 @@
     <h1>Welcome, Amruth 👋</h1>
     <p>“Stay focused and never stop learning.”</p>
     <div class="quote">Success is the sum of small efforts, repeated day in and day out.</div>
-    <button class="logout-btn" onclick="logout()">Logout</button>
+    <form action="/logout" method="post">
+
+      <button class="logout-btn" type="submit">Logout</button>
+    </form>
   </div>
 
   <script>

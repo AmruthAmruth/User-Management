@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Management Dashboard</title>
+  <!-- Premium Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Base colors from your design */
+    :root {
+      --primary: #FF4B2B;
+      --secondary: #FF416C;
+      --light-bg: #f6f5f7;
+      --input-bg: #eee;
+      --text-dark: #333;
+      --text-error: red;
+      --border-light: #dddddd;
+    }
+    
+    /* Reset and set base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      height: 100%;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--light-bg);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      position: relative;
+      padding: 20px;
+    }
+
+    /* Extra background circles for a premium decorative effect */
+    .circle-bg {
+      position: absolute;
+      top: -150px;
+      right: -150px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--secondary), transparent);
+      border-radius: 50%;
+      opacity: 0.15;
+      z-index: -1;
+    }
+
+    .circle-bg-2 {
+      position: absolute;
+      bottom: -100px;
+      left: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--primary), transparent);
+      border-radius: 50%;
+      opacity: 0.1;
+      z-index: -1;
+    }
+
+    .circle-bg-3 {
+      position: absolute;
+      bottom: -150px;
+      right: -150px;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, var(--secondary), transparent);
+      border-radius: 50%;
+      opacity: 0.1;
+      z-index: -1;
+    }
+    
+    /* Header styles with tagline */
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    header h1 {
+      font-size: 32px;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    header blockquote {
+      font-style: italic;
+      font-size: 16px;
+      color: var(--text-dark);
+      opacity: 0.7;
+    }
+    
+    .logout-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .logout-btn:hover {
+      background: var(--secondary);
+    }
+    
+    /* Layout grid */
+    .container {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 20px;
+    }
+    
+    /* Sidebar styling */
+    .sidebar {
+      background: #fff;
+      padding: 25px;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    .sidebar h2 {
+      font-size: 22px;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    
+    .new-user-btn {
+      display: block;
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      text-align: center;
+      padding: 12px 0;
+      font-size: 16px;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .new-user-btn:hover {
+      background: var(--secondary);
+    }
+    
+    /* Main content styles */
+    .content {
+      background: #fff;
+      padding: 25px;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    .content h2 {
+      font-size: 22px;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    
+    /* Table styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    thead {
+      background: var(--input-bg);
+    }
+    
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    th {
+      font-weight: 600;
+    }
+    
+    tr:hover {
+      background: #f1f1f1;
+    }
+    
+    /* Action button styles in table */
+    .action-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 8px 10px;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+      margin-right: 5px;
+    }
+    
+    .edit-btn {
+      color: var(--primary);
+    }
+    
+    .edit-btn:hover {
+      background: rgba(255, 75, 43, 0.1);
+    }
+    
+    .delete-btn {
+      color: var(--text-error);
+    }
+    
+    .delete-btn:hover {
+      background: rgba(255, 0, 0, 0.1);
+    }
+    
+    /* MODAL STYLES */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0, 0, 0, 0.5);
+      padding-top: 60px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .modal-content {
+      background: #fff;
+      margin: auto;
+      padding: 30px;
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      width: 95%;
+      max-width: 500px;
+      position: relative;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      animation: slideIn 0.4s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .modal-content .close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+    
+    .modal-content h2 {
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+    
+    /* Form styles inside modals */
+    .modal-content form {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .modal-content label {
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    
+    .modal-content input[type="text"],
+    .modal-content input[type="email"],
+    .modal-content input[type="password"] {
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      background: var(--input-bg);
+      font-size: 14px;
+    }
+    
+    .modal-content button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .modal-content button:hover {
+      background: var(--secondary);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        margin-bottom: 20px;
+      }
+      
+      header h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Decorative Circles -->
+  <div class="circle-bg"></div>
+  <div class="circle-bg-2"></div>
+  <div class="circle-bg-3"></div>
+  
+  <!-- Header with title, tagline, and logout button -->
+  <header>
+    <h1>User Management Dashboard</h1>
+    <blockquote>Empowering Your User Management Experience</blockquote>
+    <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
+  </header>
+  
+  <!-- Main Container with Sidebar and Content Area -->
+  <div class="container">
+    <!-- Sidebar: Actions -->
+    <aside class="sidebar">
+      <h2>Actions</h2>
+      <button class="new-user-btn" onclick="openModal('addUserModal')">Create New User</button>
+    </aside>
+    
+    <!-- Content: User Table -->
+    <main class="content">
+      <h2>Users</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dummy Data Example -->
+          <% users.forEach(function(user) { %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td>********</td>
+              <td>
+                <button class="action-btn edit-btn" onclick="openEditModal('<%= user._id %>', '<%= user.name %>', '<%= user.email %>')">Edit</button>
+                <button class="action-btn delete-btn" onclick="if(confirm('Are you sure?')) { location.href='/admin/user/delete/<%= user._id %>'; }">Delete</button>
+              </td>
+            </tr>
+          <% }); %>
+         
+        </tbody>
+      </table>
+    </main>
+  </div>
+  
+  <!-- Modal for Adding a New User -->
+  <div id="addUserModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('addUserModal')">&times;</span>
+      <h2>Add New User</h2>
+      <form action="/admin/user/add" method="POST">
+        <label for="add-name">Name</label>
+        <input type="text" id="add-name" name="name" placeholder="Enter name" required>
+  
+        <label for="add-email">Email</label>
+        <input type="email" id="add-email" name="email" placeholder="Enter email" required>
+  
+        <label for="add-password">Password</label>
+        <input type="password" id="add-password" name="password" placeholder="Enter password" required>
+  
+        <button type="submit">Save</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Modal for Editing an Existing User -->
+  <div id="editUserModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('editUserModal')">&times;</span>
+      <h2>Edit User</h2>
+      <form action="/admin/user/update" method="POST">
+        <!-- Hidden field for user ID -->
+        <input type="hidden" id="edit-user-id" name="id" value="">
+  
+        <label for="edit-name">Name</label>
+        <input type="text" id="edit-name" name="name" placeholder="Enter name" required>
+  
+        <label for="edit-email">Email</label>
+        <input type="email" id="edit-email" name="email" placeholder="Enter email" required>
+  
+        <label for="edit-password">Password</label>
+        <input type="password" id="edit-password" name="password" placeholder="Enter new password" required>
+  
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    // Functions to open and close modals
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = "block";
+    }
+  
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
+    }
+  
+    // Helper to pre-fill and open the Edit User modal
+    function openEditModal(userId, name, email) {
+      openModal("editUserModal");
+      document.getElementById("edit-user-id").value = userId;
+      document.getElementById("edit-name").value = name;
+      document.getElementById("edit-email").value = email;
+      document.getElementById("edit-password").value = "";
+    }
+  
+    // Close modal when clicking outside the modal content
+    window.onclick = function(event) {
+      const modals = document.getElementsByClassName("modal");
+      for (let modal of modals) {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

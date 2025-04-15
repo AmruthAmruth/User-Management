@@ -4,6 +4,7 @@ import path from 'path'
 import session from 'express-session'
 import connectDB from './config/database'
 import routes from './routes/userRoutes';
+import adminRouter from './routes/adminRoutes';
 
 const app = express()
 
@@ -19,7 +20,9 @@ app.use(session({
     saveUninitialized: false,
   }));
   
- app.use('/',routes)
+  
+app.use('/',routes)
+app.use('/admin',adminRouter)
 
   let port = 7000;
   connectDB().then(()=>{
